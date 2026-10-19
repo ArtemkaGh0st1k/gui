@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QApplication
 
 from lab1.main_molule import ImageApp
 from lab2.currency_converter import CurrencyConverter
+from lab3.db_window import DbWindow
 
 
 class LabRunner():
@@ -19,5 +20,12 @@ class LabRunner():
     def start_2_lab(self):
         app = QApplication(sys.argv)
         window = CurrencyConverter()
+        window.show()
+        sys.exit(app.exec_())
+
+
+    def start_3_lab(self):
+        app = QApplication(sys.argv)
+        window = DbWindow()
         window.show()
         sys.exit(app.exec_())
