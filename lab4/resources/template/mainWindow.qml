@@ -62,6 +62,8 @@ Window {
 
     Canvas {
         id: canvas
+        objectName: "canvas"    // имя для поиска из Python
+
         anchors {
             left: parent.left
             right: parent.right
@@ -74,10 +76,27 @@ Window {
         property real lastY
         property color color: tools.paintColor
 
+        // метод для вызова из Python
+        function saveCanvas(filePath) {
+            canvas.save(filePath)
+        }
+
+        // Инициализация контекста и белого фона при старте
         onPaint: {
-            var ctx = getContext("2d")
+            var ctx = getContext("2d", { preserveDrawingBuffer: true })
+
+            // При первом запуске заливаем холст белым цветом
+            if (!isInitialized) {
+                ctx.fillStyle = "white"
+                ctx.fillRect(0, 0, canvas.width, canvas.height)
+                isInitialized = true
+                return
+            }
+
+            // Отрисовка линии
             ctx.lineWidth = tools.thickness
             ctx.strokeStyle = canvas.color
+            ctx.lineCap = "round"
             ctx.beginPath()
             ctx.moveTo(lastX, lastY)
 
